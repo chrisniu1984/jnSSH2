@@ -8,6 +8,9 @@ jnSSH2: $(OBJS)
 %.o: %.c
 	gcc $(CFLAGS) -o $@ $^
 
+install: jnSSH2
+	sudo cp ./jnSSH2 /usr/bin/
+
 clean:
 	rm -f jnSSH2
 	rm -f $(OBJS)

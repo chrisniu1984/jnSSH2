@@ -1,3 +1,9 @@
+/*
+ *	可以使用密码参数的 SSH 客户端程序 v1.0
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Copyright (c) 2011 Niu.Chenguang <chrisniu1984@gmail.com>
+ */
+
 #include <string.h>
 #include <sys/ioctl.h>
 #include <netinet/in.h>
@@ -13,6 +19,8 @@
 #include <termios.h>
  
 #include <libssh2.h>
+
+#define COPYRIGHT "jnSSH2 v1.0\nCopyright (C) 2011 Niu.Chenguang <chrisniu1984@gmail.com>\n\n"
  
 struct termios _saved_tio;
 int 	tio_saved = 0;
@@ -64,6 +72,8 @@ int main (int argc, char *argv[])
 	struct timeval timeval_out;
 	timeval_out.tv_sec = 0;
 	timeval_out.tv_usec = 10;
+
+	printf(COPYRIGHT);
 
 	if (argc > 4) {
 		hostaddr = inet_addr(argv[1]);

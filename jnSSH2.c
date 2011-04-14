@@ -149,7 +149,7 @@ int main (int argc, char *argv[])
 	
 		ioctl(fileno(stdin), TIOCGWINSZ, &w_size);
 		if ((w_size.ws_row != w_size_bck.ws_row) ||
-			(w_size.ws_col != w_size_bck.ws_col))   {
+			(w_size.ws_col != w_size_bck.ws_col)) {
 			w_size_bck = w_size;
 			libssh2_channel_request_pty_size(channel, w_size.ws_col, w_size.ws_row);
 		}

@@ -8,6 +8,7 @@
 #include <glade/glade.h>
 #include "ui_glade.h"
 
+#define SHOW_PASSWD 0
 #define TERM  "/usr/bin/gnome-terminal"
 #define SSH2  "/usr/local/bin/jnSSH2"
 
@@ -110,8 +111,10 @@ void init_widget()
     gtk_tree_view_column_set_title(column, "Passwd");
     gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_FIXED);
     gtk_tree_view_column_set_fixed_width(column, 100);
+    #if SHOW_PASSWD
     gtk_tree_view_column_pack_start (column, render, TRUE);
     gtk_tree_view_column_set_attributes (column, render, "text", COL_PASSWD, NULL);
+    #endif
     gtk_tree_view_append_column(view, column);
 
     // 数据格式

@@ -181,8 +181,10 @@ int main (int argc, char *argv[])
         if ((w_size.ws_row != w_size_bck.ws_row) ||
             (w_size.ws_col != w_size_bck.ws_col)) {
             w_size_bck = w_size;
-            if (libssh2_channel_request_pty_size(channel, w_size.ws_col, w_size.ws_row) == -1)
-                libssh2_channel_request_pty_size(channel, w_size.ws_col, w_size.ws_row);
+            int count = 0;
+            while (count<5 && libssh2_channel_request_pty_size(channel, w_size.ws_col, w_size.ws_row) == -1) {
+                count++;
+            }
         }
     
         if ((fds = malloc (sizeof(LIBSSH2_POLLFD))) == NULL)

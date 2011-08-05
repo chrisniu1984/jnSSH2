@@ -117,6 +117,8 @@ int main (int argc, char *argv[])
         return -1;
     }
 
+    fprintf(stdout, "Connecting ... %s:%s\r\n\n", argv[1], argv[2]);
+
     if (libssh2_init (0) != 0) {
         fprintf (stderr, "libssh2 initialization failed\n");
         return -1;
@@ -173,6 +175,8 @@ int main (int argc, char *argv[])
         goto ERROR;
     }
     
+    //fprintf(stdout, "---------------------------------------\r\n");
+
     while (1) {
         FD_ZERO(&set);
         FD_SET(fileno(stdin),&set);

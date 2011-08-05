@@ -1,7 +1,8 @@
 AUTOMAKE_OPTIONS=foreign
-
-SUBDIRS = f2h src sm
-
 CLEANFILES = autoscan.log config.log
+DISTCLEANFILES = aclocal.m4 configure depcomp install-sh missing Makefile.in
+
 clean-local:
 	rm -rf autom4te.cache
+
+SUBDIRS = f2h src sm

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+aclocal
+autoconf
+automake -a
+./configure
+make

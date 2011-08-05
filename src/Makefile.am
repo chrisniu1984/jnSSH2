@@ -1,4 +1,5 @@
 AUTOMAKE_OPTIONS=foreign
+DISTCLEANFILES = Makefile.in
 
 bin_PROGRAMS = jnSSH2
 

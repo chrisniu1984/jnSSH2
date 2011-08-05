@@ -1,4 +1,5 @@
-AUTOMAKE_OPTIONS=foreign
+AUTOMAKE_OPTIONS = foreign
+DISTCLEANFILES = Makefile.in
 
 noinst_PROGRAMS = f2h
 

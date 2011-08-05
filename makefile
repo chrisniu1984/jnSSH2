@@ -1,8 +1,9 @@
 CFLAGS=-Wall -c -g
 LDFLAGS=-Wall -lssh2
-OBJS=jnSSH2.o
 
-jnSSH2: $(OBJS)
+all: jnSSH2
+
+jnSSH2: jnSSH2.o
 	gcc $(LDFLAGS) $< -o $@
 
 %.o: %.c
@@ -12,5 +13,4 @@ install: jnSSH2
 	sudo cp ./jnSSH2 /usr/bin/
 
 clean:
-	rm -f jnSSH2
-	rm -f $(OBJS)
+	rm -f jnSSH2 *.o

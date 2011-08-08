@@ -32,11 +32,12 @@ enum COL_NUMS {
     COL_PASSWD,
 };
 
-void on_site_list_row_actived(GtkTreeView *tree_view, GtkTreePath *path, GtkTreeViewColumn *column, gpointer user_data)
+void *start_child(void *arg)
 {
+    GtkTreeView *view = (GtkTreeView*) arg;
     GtkTreeModel *model;
     GtkTreeIter iter;
-    GtkTreeSelection *sel = gtk_tree_view_get_selection(tree_view);
+    GtkTreeSelection *sel = gtk_tree_view_get_selection(view);
     gtk_tree_selection_get_selected(sel, &model, &iter);
 
     char *ip;
@@ -48,18 +49,33 @@ void on_site_list_row_actived(GtkTreeView *tree_view, GtkTreePath *path, GtkTree
     gtk_tree_model_get(model, &iter, COL_USER, &user, -1);
     gtk_tree_model_get(model, &iter, COL_PASSWD, &passwd, -1);
 
+    if (ip[0] == '\0' ||
+        port[0] == '\0' ||
+        user[0] == '\0' ||
+        passwd[0] == '\0')
+        return NULL;
+
     pid_t pid = fork();
+
     if (pid < 0) {
         printf("fork error\n");
-        return;
+        return NULL;
     }
     else if (pid == 0) {
         execl(TERM, TERM, "-x", SSH2, ip, port, user, passwd, NULL);
     }
     else {
         int status;
+        sleep(5);
         waitpid(pid, &status, 0);
     }
+}
+
+void on_site_list_row_actived(GtkTreeView *tree_view, GtkTreePath *path, GtkTreeViewColumn *column, gpointer user_data)
+{
+    pthread_t tid;
+    if (pthread_create(&tid, NULL, start_child, (void*)tree_view))
+        perror("pthread_create");
 }
 
 void init_widget()

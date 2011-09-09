@@ -32,9 +32,14 @@ enum COL_NUMS {
     COL_PASSWD,
 };
 
-void *start_child(void *arg)
+void proc_child(int SIGNO)   
+{   
+    int status;
+    wait(&status);
+}   
+
+void on_site_list_row_actived(GtkTreeView *view, GtkTreePath *path, GtkTreeViewColumn *column, gpointer user_data)
 {
-    GtkTreeView *view = (GtkTreeView*) arg;
     GtkTreeModel *model;
     GtkTreeIter iter;
     GtkTreeSelection *sel = gtk_tree_view_get_selection(view);
@@ -53,29 +58,17 @@ void *start_child(void *arg)
         port[0] == '\0' ||
         user[0] == '\0' ||
         passwd[0] == '\0')
-        return NULL;
+        return;
 
     pid_t pid = fork();
 
     if (pid < 0) {
         printf("fork error\n");
-        return NULL;
+        return;
     }
     else if (pid == 0) {
         execl(TERM, TERM, "-x", SSH2, ip, port, user, passwd, NULL);
     }
-    else {
-        int status;
-        sleep(5);
-        waitpid(pid, &status, 0);
-    }
-}
-
-void on_site_list_row_actived(GtkTreeView *tree_view, GtkTreePath *path, GtkTreeViewColumn *column, gpointer user_data)
-{
-    pthread_t tid;
-    if (pthread_create(&tid, NULL, start_child, (void*)tree_view))
-        perror("pthread_create");
 }
 
 void init_widget()
@@ -275,6 +268,9 @@ gboolean on_mainWindow_destroy(GtkWidget *widget, GdkEvent  *event, gpointer use
 
 int main(int argc, char *argv[])
 {
+    signal(SIGCHLD, proc_child);   
+
+
     gtk_init(&argc, &argv);
 
     /* load the interface */

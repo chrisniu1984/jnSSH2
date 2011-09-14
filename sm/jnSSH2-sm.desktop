@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=jnSSH2 Site Manager
+Comment=jnSSH2 Server List
+Exec=jnSSH2-sm
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=gnome-network-properties.svg
+Categories=GNOME;GTK;Network;

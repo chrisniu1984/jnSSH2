@@ -134,44 +134,6 @@ void init_widget()
     g_signal_connect (view, "row-activated", G_CALLBACK (on_site_list_row_actived), NULL); 
 }
 
-void test()
-{
-    GtkWidget *widget;
-    GtkTreeView *view;
-    GtkListStore *store;
-    GtkTreeIter iter;
-
-    widget = GET_WIDGET("siteList");
-    view = GTK_TREE_VIEW(widget);
-    store = GTK_LIST_STORE(gtk_tree_view_get_model(view));
-
-    gtk_list_store_clear(store);
-
-    gtk_list_store_append(store, &iter);
-    gtk_list_store_set(store, &iter,
-                       0, "10.1.44.212",
-                       1, "22",
-                       2, "root",
-                       3, "zznode~!123",
-                       -1);
-
-    gtk_list_store_append(store, &iter);
-    gtk_list_store_set(store, &iter,
-                       0, "10.1.100.156",
-                       1, "22",
-                       2, "root",
-                       3, "zznode~!123",
-                       -1);
-
-    gtk_list_store_append(store, &iter);
-    gtk_list_store_set(store, &iter,
-                       0, "10.1.12.50",
-                       1, "22",
-                       2, "root",
-                       3, "zznode~!123",
-                       -1);
-}
-
 void add_view(struct row *row)
 {
     GtkWidget *widget;
@@ -269,7 +231,6 @@ gboolean on_mainWindow_destroy(GtkWidget *widget, GdkEvent  *event, gpointer use
 int main(int argc, char *argv[])
 {
     signal(SIGCHLD, proc_child);   
-
 
     gtk_init(&argc, &argv);
 

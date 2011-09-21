@@ -199,7 +199,7 @@ int main (int argc, char *argv[])
         fds[0].events = LIBSSH2_POLLFD_POLLIN;
         fds[0].revents = LIBSSH2_POLLFD_POLLIN;
     
-        if (libssh2_poll(fds, nfds, 0) > 0) {
+        if (libssh2_poll(fds, nfds, 10) > 0) {
             libssh2_channel_read(channel, &buf, 1);
             fprintf(stdout, "%c", buf);
             fflush(stdout);

@@ -1,6 +1,7 @@
 AUTOMAKE_OPTIONS=foreign
 DISTCLEANFILES = Makefile.in
 
+CFLAGS="-g"
 CFLAGS+=$(shell pkg-config --cflags gtk+-2.0)
 CFLAGS+=$(shell pkg-config --cflags libglade-2.0)
 

@@ -22,6 +22,7 @@ struct row
     char port[8];
     char user[16];
     char passwd[128];
+    char comment[256];
 };
 
 // 用来绑定store中的数据
@@ -30,6 +31,7 @@ enum COL_NUMS {
     COL_PORT,
     COL_USER,
     COL_PASSWD,
+    COL_COMMENT,
 };
 
 void proc_child(int SIGNO)   
@@ -92,7 +94,7 @@ void init_widget()
     column = gtk_tree_view_column_new();
     gtk_tree_view_column_set_title(column, "IP");
     gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_FIXED);
-    gtk_tree_view_column_set_fixed_width(column, 100);
+    gtk_tree_view_column_set_fixed_width(column, 150);
     gtk_tree_view_column_pack_start (column, render, TRUE);
     gtk_tree_view_column_set_attributes (column, render, "text", COL_IP, NULL);
     gtk_tree_view_append_column(view, column);
@@ -101,7 +103,7 @@ void init_widget()
     column = gtk_tree_view_column_new();
     gtk_tree_view_column_set_title(column, "Port");
     gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_FIXED);
-    gtk_tree_view_column_set_fixed_width(column, 50);
+    gtk_tree_view_column_set_fixed_width(column, 80);
     gtk_tree_view_column_pack_start (column, render, TRUE);
     gtk_tree_view_column_set_attributes (column, render, "text", COL_PORT, NULL);
     gtk_tree_view_append_column(view, column);
@@ -110,24 +112,33 @@ void init_widget()
     column = gtk_tree_view_column_new();
     gtk_tree_view_column_set_title(column, "User");
     gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_FIXED);
-    gtk_tree_view_column_set_fixed_width(column, 100);
+    gtk_tree_view_column_set_fixed_width(column, 80);
     gtk_tree_view_column_pack_start (column, render, TRUE);
     gtk_tree_view_column_set_attributes (column, render, "text", COL_USER, NULL);
     gtk_tree_view_append_column(view, column);
 
     // passwd
+    #if SHOW_PASSWD
     column = gtk_tree_view_column_new();
     gtk_tree_view_column_set_title(column, "Passwd");
     gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_FIXED);
     gtk_tree_view_column_set_fixed_width(column, 100);
-    #if SHOW_PASSWD
     gtk_tree_view_column_pack_start (column, render, TRUE);
     gtk_tree_view_column_set_attributes (column, render, "text", COL_PASSWD, NULL);
+    gtk_tree_view_append_column(view, column);
     #endif
+
+    // passwd
+    column = gtk_tree_view_column_new();
+    gtk_tree_view_column_set_title(column, "Comment");
+    gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_FIXED);
+    gtk_tree_view_column_set_fixed_width(column, 150);
+    gtk_tree_view_column_pack_start (column, render, TRUE);
+    gtk_tree_view_column_set_attributes (column, render, "text", COL_COMMENT, NULL);
     gtk_tree_view_append_column(view, column);
 
     // 数据格式
-    store = gtk_list_store_new(4, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+    store = gtk_list_store_new(5, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
     gtk_tree_view_set_model(view, GTK_TREE_MODEL(store));
     g_object_unref(store);
 
@@ -151,6 +162,7 @@ void add_view(struct row *row)
                        1, row->port,
                        2, row->user,
                        3, row->passwd,
+                       4, row->comment,
                        -1);
 }
 
@@ -181,6 +193,13 @@ int parse_line(struct row *row, char *line)
     if (p == NULL)
         return -1;
     memcpy(row->passwd, line, p-line);
+    printf("%s\n", row->passwd);
+    line = p+1;
+
+    p = memchr(line, '|', strlen(line));
+    if (p == NULL)
+        return 0;
+    memcpy(row->comment, line, p-line);
     printf("%s\n", row->passwd);
     line = p+1;
 

@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 import os
 import gtk
-from multiprocessing import Process
 import signal
+from multiprocessing import Process
 
 class Config:
     def __init__(self):
@@ -11,6 +11,9 @@ class Config:
 
     def read(self, path):
         fh = open(path, 'r')
+        if fh == None:
+            return
+
         lines = fh.readlines()
         fh.close()
         for line in lines:
@@ -112,6 +115,9 @@ class Window:
         self.window.show()
 
     def config(self,config):
+        if config == None:
+            return
+
         for line in config.lists:
             self.liststore.append([line["ip"],line["port"],line["user"],line["passwd"],line["comment"]])
 
@@ -120,7 +126,8 @@ class Window:
 
 if __name__ == "__main__":
     config = Config()
-    config.read('/home/niu/.jnSSH2/account.lst')
+    fname = "%s/.jnSSH2/account.lst" % (os.environ['HOME'])
+    config.read(fname)
 
     window = Window()
     window.config(config)

@@ -1,0 +1,25 @@
+可以使用密码参数的 SSH 客户端程序 v1.0
+Copyright (c) 2011 Niu.Chenguang <chrisniu1984@gmail.com>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1、环境
+    我使用以下环境开发、编译和运行此工具（仅供参考不限于一下环境）:
+
+    os: Ubuntu/Linux 3.0.0-12-generic i686
+    gcc: gcc (Ubuntu/Linaro 4.6.1-9ubuntu3) 4.6.1
+    libc: GNU C Library (Ubuntu EGLIBC 2.13-20ubuntu5) stable release version 2.13
+    make: GNU Make 3.81
+    autoconf: aclocal (GNU automake) 1.11.1
+              autoconf (GNU Autoconf) 2.68
+              automake (GNU automake) 1.11.1
+    python: Python 2.7.2+
+    libssh2: libssh2-1 (= 1.2.8-1)
+
+2、编译
+    ./autogen
+
+3、安装
+    sudo make install
+    或
+    su
+    make install

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=jnSSH2 Launcher
+Comment=jnSSH2 Launcher
+Exec=jnSSH2-launcher
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=gnome-network-properties.svg
+Categories=GNOME;GTK;Network;

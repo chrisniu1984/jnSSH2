@@ -1,38 +1,7 @@
 /*
- *    可以使用密码参数的 SSH 客户端程序 v1.0
+ * 可以使用密码参数的 SSH 客户端程序 v1.0
  * Copyright (c) 2011 Niu.Chenguang <chrisniu1984@gmail.com>
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *
- * [makefile]
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * CFLAGS=-Wall -c -g
- * LDFLAGS=-Wall -lssh2
- * OBJS=jnSSH2.o
- * 
- * jnSSH2: $(OBJS)
- *     gcc $(LDFLAGS) $< -o $@
- * 
- * %.o: %.c
- *     gcc $(CFLAGS) -o $@ $^
- * 
- * install: jnSSH2
- *     sudo cp ./jnSSH2 /usr/bin/
- * 
- * clean:
- *     rm -f jnSSH2
- *     rm -f $(OBJS)
- *
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * [README]
- * 一、ubuntu 编译并使用
- * 1、安装 libssh2-dev 库
- *     sudo aptitued install libssh2-1-dev
- * 2、编译
- *     make
- * 3、测试
- *     ./jnSSH2 ip port user passwd
- * 4、安装
- *     make install
  */
 
 #include <string.h>
@@ -199,7 +168,7 @@ int main (int argc, char *argv[])
         fds[0].events = LIBSSH2_POLLFD_POLLIN;
         fds[0].revents = LIBSSH2_POLLFD_POLLIN;
     
-        if (libssh2_poll(fds, nfds, 0) > 0) {
+        if (libssh2_poll(fds, nfds, 10) > 0) {
             libssh2_channel_read(channel, &buf, 1);
             fprintf(stdout, "%c", buf);
             fflush(stdout);

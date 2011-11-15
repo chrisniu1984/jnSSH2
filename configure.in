@@ -28,6 +28,5 @@ AC_CHECK_FUNCS([select socket])
 
 #AC_CONFIG_FILES
 AC_OUTPUT(Makefile
-          f2h/Makefile
           src/Makefile
-          sm/Makefile)
+          launcher/Makefile)

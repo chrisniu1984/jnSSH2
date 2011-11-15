@@ -5,6 +5,10 @@ import gtk
 import signal
 from multiprocessing import Process
 
+XTERMS = (("/usr/bin/gnome-terminal", "-x"),
+          ("/usr/bin/xfce4-terminal", "-x"),
+          ("/usr/bin/xterm", "-e"))
+
 class Config:
     def __init__(self):
         self.lists = []
@@ -42,7 +46,7 @@ class Window:
         print port
         print user
         print passwd
-        os.execl(self.term, self.term, "-x", self.ssh2, ip, port, user, passwd)
+        os.execl(self.term, self.term, self.param, self.ssh2, ip, port, user, passwd)
 
     def do_row_actived(self, treeview, row=0, column=None, data=None):
         model = treeview.get_model()
@@ -58,22 +62,34 @@ class Window:
     def do_destroy(self, widget, data=None):
         gtk.main_quit()
 
+    def __term__(self):
+        global XTERMS
+
+        for m in XTERMS:
+            print m[0]
+            if os.access(m[0], os.X_OK|os.R_OK) == True:
+                self.term=m[0];
+                self.param=m[1];
+                return
+
     def __init__(self):
-        self.term = "/usr/bin/gnome-terminal"
+        self.__term__()
         self.ssh2 = "/usr/local/bin/jnSSH2"
         signal.signal(signal.SIGCHLD, signal.SIG_IGN)
 
         # create a new window
         self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+        self.window.set_title("jnSSH2 Launcher")
+        self.window.set_position(gtk.WIN_POS_CENTER)
+        self.window.set_border_width(3)
+        self.window.set_resizable(False)
         self.window.connect("destroy", self.do_destroy)
 
-        # Sets the border width of the window.
-        self.window.set_border_width(3)
-
-        render = gtk.CellRendererText()
-
+        # List
         self.treeview = gtk.TreeView(model=None)
         self.treeview.set_grid_lines(gtk.TREE_VIEW_GRID_LINES_HORIZONTAL)
+
+        render = gtk.CellRendererText()
 
         column = gtk.TreeViewColumn()
         column.set_title("IP")
@@ -115,7 +131,7 @@ class Window:
 
         self.window.show()
 
-    def config(self,config):
+    def bind(self,config):
         if config == None:
             return
 
@@ -126,10 +142,10 @@ class Window:
         gtk.main()
 
 if __name__ == "__main__":
-    config = Config()
     fname = "%s/.jnSSH2/account.lst" % (os.environ['HOME'])
+    config = Config()
     config.read(fname)
 
     window = Window()
-    window.config(config)
+    window.bind(config)
     window.main()

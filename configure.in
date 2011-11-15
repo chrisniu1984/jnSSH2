@@ -13,7 +13,7 @@ AC_PROG_INSTALL
 
 # Checks for libraries.
 # FIXME: Replace `main' with a function in `-lssh2':
-AC_CHECK_LIB([ssh2], [main])
+AC_CHECK_LIB([ssh2], [libssh2_init])
 
 # Checks for header files.
 AC_CHECK_HEADERS([arpa/inet.h fcntl.h netinet/in.h stdlib.h string.h sys/ioctl.h termios.h unistd.h])

@@ -23,3 +23,13 @@ Copyright (c) 2011 Niu.Chenguang <chrisniu1984@gmail.com>
     或
     su
     make install
+
+4、配置文件(jnSSH2-launcher需要)
+    1、在$HOME/.jnSSH/目录下创建account.lst文件。
+    2、按照如下格式修改account.lst文件：
+        |服务器地址|服务器端口|用户名|密码|注释|
+
+       如：
+        10.1.1.50|22|root|password123|注释可省略|
+        10.1.1.2|22|root|pwd111|
+        10.1.1.6|2022|niu|niu123|测试服务器|

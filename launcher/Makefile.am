@@ -2,7 +2,6 @@ AUTOMAKE_OPTIONS=foreign
 DISTCLEANFILES = Makefile.in
 
 desktopdir=/usr/share/applications/
-
 desktop_PROGRAMS=jnSSH2-launcher.desktop
 
 bin_PROGRAMS = jnSSH2-launcher
